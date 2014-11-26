@@ -1,38 +1,28 @@
-/*
-Multifont GFX library is adapted from Adafruit_GFX library by Paul Kourany
-v1.0.0, May 2014 Initial Release
-v1.0.1, June 2014 Font Compilation update
+This is a library for the Adafruit HX8357 display products
 
-Please read README.pdf for details
-
-This is the core graphics library for all our displays, providing a common
-set of graphics primitives (points, lines, circles, etc.).  It needs to be
-paired with a hardware-specific library for each display device we carry
-(to handle the lower-level functions).
-
-Adafruit invests time and resources providing this open source code, please
-support Adafruit & open-source hardware by purchasing products from Adafruit!
+This library works with the Adafruit 3.5" Breakout
+  ----> http://www.adafruit.com/products/2050
  
-Copyright (c) 2013 Adafruit Industries.  All rights reserved.
+Check out the links above for our tutorials and wiring diagrams.
+These displays use SPI to communicate, 4 or 5 pins are required
+to interface (RST is optional).
 
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
+Adafruit invests time and resources providing this open source code,
+please support Adafruit and open-source hardware by purchasing
+products from Adafruit!
 
-- Redistributions of source code must retain the above copyright notice,
-  this list of conditions and the following disclaimer.
-- Redistributions in binary form must reproduce the above copyright notice,
-  this list of conditions and the following disclaimer in the documentation
-  and/or other materials provided with the distribution.
+Written by Limor Fried/Ladyada for Adafruit Industries.
+MIT license, all text above must be included in any redistribution
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
-LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-POSSIBILITY OF SUCH DAMAGE.
-*/
+For Arduino:
+To download. click the DOWNLOADS button in the top right corner, rename the uncompressed folder Adafruit_HX8357. Check that the Adafruit_HX8357 folder contains Adafruit_HX8357.cpp and Adafruit_HX8357.
+
+Place the Adafruit_HX8357 library folder your arduinosketchfolder/libraries/ folder. You may need to create the libraries subfolder if its your first library. Restart the IDE
+
+Also requires the Adafruit_GFX library for Arduino.
+
+
+For Spark Core (ported by ScruffR - Nov. 2014)
+To download go to https://github.com/ScruffR/adafruit_hx8357
+
+Also requires the Adafruit_mfGFX library by Paul Kourany.
