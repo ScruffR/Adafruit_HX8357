@@ -76,8 +76,7 @@ void Adafruit_HX8357::begin(uint8_t type) {
 #elif defined (__arm__)
     SPI.begin();
 #if defined (SPARK)
-    // ScruffR ToDo: Try DIV4 and DIV2 for more speeeeeeed
-    SPI.setClockDivider(SPI_CLOCK_DIV8); // a bit more than 8MHz (full speed?)
+    SPI.setClockDivider(SPI_CLOCK_SETTING); // a bit more than 8MHz (full speed?)
 #else
     SPI.setClockDivider(11); // 8-ish MHz (full! speed!)
 #endif
@@ -324,8 +323,7 @@ void Adafruit_HX8357::spiwrite(uint8_t c) {
     SPCR = backupSPCR;
 #elif defined (__arm__)
 #if defined (SPARK)
-    // ScruffR ToDo: Try DIV4 and DIV2 for more speeeeeeed
-    SPI.setClockDivider(SPI_CLOCK_DIV8); // a bit more than 8MHz (full speed?)
+    SPI.setClockDivider(SPI_CLOCK_SETTING); // a bit more than 8MHz (full speed?)
 #else
     SPI.setClockDivider(11); // 8-ish MHz (full! speed!)
 #endif
@@ -631,8 +629,7 @@ uint8_t Adafruit_HX8357::spiread(void) {
     SPCR = backupSPCR;
 #elif defined (__arm__)
 #if defined (SPARK)
-    // ScruffR ToDo: Try DIV4 and DIV2 for more speeeeeeed
-    SPI.setClockDivider(SPI_CLOCK_DIV8); // a bit more than 8MHz (full speed?)
+    SPI.setClockDivider(SPI_CLOCK_SETTING); // a bit more than 8MHz (full speed?)
 #else
     SPI.setClockDivider(11); // 8-ish MHz (full! speed!)
 #endif
