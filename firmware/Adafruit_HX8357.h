@@ -18,9 +18,9 @@
 
 #ifdef SPARK
 // Hack to get this to work in Spark IDE
-//#include "../Adafruit_mfGFX/Adafruit_mfGFX.h"
+#include "../Adafruit_mfGFX/Adafruit_mfGFX.h"
 // Hack to get this to work in Spark Dev IDE
-#include "..\Adafruit_mfGFX\Adafruit_mfGFX.h"
+//#include "Adafruit_mfGFX.h"
 
 // ScruffR ToDo: Try DIV8, DIV4 and DIV2 for more speeeeeeed
 #define SPI_CLOCK_SETTING SPI_CLOCK_DIV8 // seems a good compromise

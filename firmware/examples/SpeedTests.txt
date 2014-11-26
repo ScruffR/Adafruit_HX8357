@@ -1,0 +1,97 @@
+Speedtest for different settings for SPI_CLOCK_SETTING and SoftSPI
+
+SPI_CLOCK_DIV16
+HX8357D Test!
+Display Power Mode: 0x9C
+MADCTL Mode: 0xC0
+Pixel Format: 0x5
+Image Format: 0x0
+Self Diagnostic: 0xC0
+Benchmark                Time (microseconds)
+Text                     3201337
+Lines                    10945964
+Rectangles (outline)     656103
+Circles (outline)        4702119
+Triangles (outline)      3058366
+Triangles (filled)       10776542
+Rounded rects (outline)  1291775
+Rounded rects (filled)   25523570
+Done!
+
+SPI_CLOCK_DIV8
+HX8357D Test!
+Display Power Mode: 0x9C
+MADCTL Mode: 0xC0
+Pixel Format: 0x5
+Image Format: 0x0
+Self Diagnostic: 0xC0
+Benchmark                Time (microseconds)
+Text                     3025821
+Lines                    10344133
+Rectangles (outline)     596228
+Circles (outline)        4443450
+Triangles (outline)      2890247
+Triangles (filled)       9807187
+Rounded rects (outline)  1207527
+Rounded rects (filled)   23148390
+Done!
+
+SPI_CLOCK_DIV4
+HX8357D Test!
+Display Power Mode: 0xCE
+MADCTL Mode: 0xE0
+Pixel Format: 0x2
+Image Format: 0x0
+Self Diagnostic: 0xE0
+Benchmark                Time (microseconds)
+Text                     2937944
+Lines                    10042912
+Rectangles (outline)     566260
+Circles (outline)        4313940
+Triangles (outline)      2806088
+Triangles (filled)       9322061
+Rounded rects (outline)  1165347
+Rounded rects (filled)   21961206
+Done!
+
+SPI_CLOCK_DIV2
+HX8357D Test!
+Display Power Mode: 0xCE
+MADCTL Mode: 0xE0
+Pixel Format: 0x2
+Image Format: 0x0
+Self Diagnostic: 0xE0
+Benchmark                Time (microseconds)
+Text                     2937947
+Lines                    10042941
+Rectangles (outline)     566261
+Circles (outline)        4313938
+Triangles (outline)      4238121034
+Triangles (filled)       9322068
+Rounded rects (outline)  1165358
+Rounded rects (filled)   21961170
+Done!
+
+Soft SPI:
+SPI pins
+SCK  : D3
+MISO : D4
+MOSI : D5
+CS   : D6
+C/D  : D7
+HX8357D Test!
+Display Power Mode: 0x0
+MADCTL Mode: 0x0
+Pixel Format: 0x0
+Image Format: 0x0
+Self Diagnostic: 0x0
+Benchmark                Time (microseconds)
+Text                     3115071
+Lines                    10672193
+Rectangles (outline)     545574
+Circles (outline)        4581850
+Triangles (outline)      2981797
+Triangles (filled)       9008938
+Rounded rects (outline)  1206485
+Rounded rects (filled)   21092820
+Done!
