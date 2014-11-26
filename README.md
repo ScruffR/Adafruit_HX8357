@@ -1,3 +1,6 @@
+Adafruit_HX8357 Library
+======================= 
+
 This is a library for the Adafruit HX8357 display products
 
 This library works with the Adafruit 3.5" Breakout
@@ -15,6 +18,7 @@ Written by Limor Fried/Ladyada for Adafruit Industries.
 MIT license, all text above must be included in any redistribution
 
 For Arduino:
+------------ 
 To download. click the DOWNLOADS button in the top right corner, rename the uncompressed folder Adafruit_HX8357. Check that the Adafruit_HX8357 folder contains Adafruit_HX8357.cpp and Adafruit_HX8357.
 
 Place the Adafruit_HX8357 library folder your arduinosketchfolder/libraries/ folder. You may need to create the libraries subfolder if its your first library. Restart the IDE
@@ -23,6 +27,7 @@ Also requires the Adafruit_GFX library for Arduino.
 
 
 For Spark Core (ported by ScruffR - Nov. 2014)
+----------------------------------------------
 To download go to https://github.com/ScruffR/adafruit_hx8357
 
 Also requires the Adafruit_mfGFX library by Paul Kourany.
