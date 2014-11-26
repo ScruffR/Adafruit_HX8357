@@ -1,0 +1,7 @@
+{
+	"name": "Adafruit_HX8357",
+	"author": "ScruffR / Adafruit",
+	"version": "0.9.0",
+	"license": "Adafruit",
+	"description": "Adafruit HX8357 TFT display library for Spark"
+}
