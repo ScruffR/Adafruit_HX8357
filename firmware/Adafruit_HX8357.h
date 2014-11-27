@@ -23,7 +23,13 @@
 //#include "Adafruit_mfGFX.h"
 
 // ScruffR ToDo: Try DIV8, DIV4 and DIV2 for more speeeeeeed
-#define SPI_CLOCK_SETTING SPI_CLOCK_DIV8 // seems a good compromise
+#define SPI_CLOCK_SETTING SPI_CLOCK_DIV8 // seems a good compromise for Photon to
+
+// direct pin manipulation macros - where speed is required
+#define pinSetHigh(pin) PIN_MAP[pin].gpio_peripheral->BSRR = PIN_MAP[pin].gpio_pin
+#define pinSetLow(pin)  PIN_MAP[pin].gpio_peripheral->BRR = PIN_MAP[pin].gpio_pin
+#define pinSet(pin, HILO) (HILO) ? pinSetHigh(pin) : pinSetLow(pin)
+
 #define pgm_read_byte(addr) (*(const unsigned char *)(addr))
 #define pgm_read_word(addr) (*(const unsigned short *)(addr))
 #define RwReg uint8_t

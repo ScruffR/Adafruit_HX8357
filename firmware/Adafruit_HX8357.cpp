@@ -356,11 +356,15 @@ void Adafruit_HX8357::spiwrite(uint8_t c) {
 
 void Adafruit_HX8357::writecommand(uint8_t c) {
 #if defined (SPARK)
-  digitalWrite(_dc, LOW);
-  digitalWrite(_sclk, LOW);
-  digitalWrite(_cs, LOW);
+  //digitalWrite(_dc, LOW);
+	pinSetLow(_dc);
+  //digitalWrite(_sclk, LOW);
+	pinSetLow(_sclk);
+  //digitalWrite(_cs, LOW);
+	pinSetLow(_cs);
   spiwrite(c);
-  digitalWrite(_cs, HIGH);
+  //digitalWrite(_cs, HIGH);
+	pinSetHigh(_cs);
 #else
   *dcport &=  ~dcpinmask;
   *clkport &= ~clkpinmask;
@@ -374,11 +378,15 @@ void Adafruit_HX8357::writecommand(uint8_t c) {
 
 void Adafruit_HX8357::writedata(uint8_t c) {
 #if defined (SPARK)
-  digitalWrite(_dc, HIGH);
-  digitalWrite(_sclk, LOW);
-  digitalWrite(_cs, LOW);
-  spiwrite(c);
-  digitalWrite(_cs, HIGH);
+//digitalWrite(_dc, HIGH);
+pinSetHigh(_dc);
+//digitalWrite(_sclk, LOW);
+pinSetLow(_sclk);
+//digitalWrite(_cs, LOW);
+pinSetLow(_cs);
+spiwrite(c);
+//digitalWrite(_cs, HIGH);
+pinSetHigh(_cs);
 #else
   *dcport |=  dcpinmask;
   *clkport &= ~clkpinmask;
@@ -408,11 +416,14 @@ void Adafruit_HX8357::setAddrWindow(uint16_t x0, uint16_t y0, uint16_t x1, uint1
 
 void Adafruit_HX8357::pushColor(uint16_t color) {
 #if defined (SPARK)
-  digitalWrite(_dc, HIGH);
-  digitalWrite(_cs, LOW);
-  spiwrite(color >> 8);
+  //digitalWrite(_dc, HIGH);
+	pinSetHigh(_dc);
+  //digitalWrite(_cs, LOW);
+  pinSetLow(_cs);
+	spiwrite(color >> 8);
   spiwrite(color);
-  digitalWrite(_cs, HIGH);
+  //digitalWrite(_cs, HIGH);
+  pinSetHigh(_cs);
 #else
   *dcport |=  dcpinmask;
   *csport &= ~cspinmask;
@@ -429,8 +440,10 @@ void Adafruit_HX8357::drawPixel(int16_t x, int16_t y, uint16_t color) {
   setAddrWindow(x,y,x+1,y+1);
 
 #if defined (SPARK)
-  digitalWrite(_dc, HIGH);
-  digitalWrite(_cs, LOW);
+  //digitalWrite(_dc, HIGH);
+  pinSetHigh(_dc);
+  //digitalWrite(_cs, LOW);
+  pinSetLow(_cs);
 #else
   *dcport |=  dcpinmask;
   *csport &= ~cspinmask;
@@ -452,7 +465,8 @@ void Adafruit_HX8357::drawPixel(int16_t x, int16_t y, uint16_t color) {
   spiwrite(color);
 
 #if defined (SPARK)
-  digitalWrite(_cs, HIGH);
+  //digitalWrite(_cs, HIGH);
+  pinSetHigh(_cs);
 #else
   *csport |= cspinmask;
 #endif
@@ -472,8 +486,10 @@ void Adafruit_HX8357::drawFastVLine(int16_t x, int16_t y, int16_t h,
   uint8_t hi = color >> 8, lo = color;
 
 #if defined (SPARK)
-  digitalWrite(_dc, HIGH);
-  digitalWrite(_cs, LOW);
+  //digitalWrite(_dc, HIGH);
+  pinSetHigh(_dc);
+  //digitalWrite(_cs, LOW);
+  pinSetLow(_cs);
 #else
   *dcport |=  dcpinmask;
   *csport &= ~cspinmask;
@@ -485,7 +501,8 @@ void Adafruit_HX8357::drawFastVLine(int16_t x, int16_t y, int16_t h,
   }
 
 #if defined (SPARK)
-  digitalWrite(_cs, HIGH);
+  //digitalWrite(_cs, HIGH);
+  pinSetHigh(_cs);
 #else
   *csport |= cspinmask;
 #endif
@@ -502,8 +519,10 @@ void Adafruit_HX8357::drawFastHLine(int16_t x, int16_t y, int16_t w,
   uint8_t hi = color >> 8, lo = color;
 
 #if defined (SPARK)
-  digitalWrite(_dc, HIGH);
-  digitalWrite(_cs, LOW);
+  //digitalWrite(_dc, HIGH);
+  pinSetHigh(_dc);
+  //digitalWrite(_cs, LOW);
+  pinSetLow(_cs);
 #else
   *dcport |=  dcpinmask;
   *csport &= ~cspinmask;
@@ -515,7 +534,8 @@ void Adafruit_HX8357::drawFastHLine(int16_t x, int16_t y, int16_t w,
   }
 
 #if defined (SPARK)
-  digitalWrite(_cs, HIGH);
+  //digitalWrite(_cs, HIGH);
+  pinSetHigh(_cs);
 #else
   *csport |= cspinmask;
 #endif
@@ -547,8 +567,10 @@ void Adafruit_HX8357::fillRect(int16_t x, int16_t y, int16_t w, int16_t h,
   */
 
 #if defined (SPARK)
-  digitalWrite(_dc, HIGH);
-  digitalWrite(_cs, LOW);
+  //digitalWrite(_dc, HIGH);
+  pinSetHigh(_dc);
+  //digitalWrite(_cs, LOW);
+  pinSetLow(_cs);
 #else
   *dcport |=  dcpinmask;
   *csport &= ~cspinmask;
@@ -562,7 +584,8 @@ void Adafruit_HX8357::fillRect(int16_t x, int16_t y, int16_t w, int16_t h,
   }
 
 #if defined (SPARK)
-  digitalWrite(_cs, HIGH);
+  //digitalWrite(_cs, HIGH);
+  pinSetHigh(_cs);
 #else
   *csport |= cspinmask;
 #endif
@@ -719,7 +742,7 @@ uint8_t Adafruit_HX8357::readcommand8(uint8_t c, uint8_t index) {
  */
 
 #if defined(SPARK)
-// taken of
+// based on
 /*
 * HARDWARE AND SOFTWARE LIQUIDCRYSTAL SPI
 * 74HC595 LIBRARY FOR SPARK CORE
@@ -731,20 +754,15 @@ uint8_t Adafruit_HX8357::readcommand8(uint8_t c, uint8_t index) {
 * https://github.com/technobly/SparkCore-LiquidCrystalSPI
 */
 inline void Adafruit_HX8357::writeFast(uint8_t value) {
-  PIN_MAP[_cs].gpio_peripheral->BRR = PIN_MAP[_cs].gpio_pin; // Latch (_cs latchpin) Low
-  for (uint8_t i = 0; i < 8; i++)  {
-    if (value & (1 << (7 - i))) { // walks down mask from bit 7 to bit 0
-      PIN_MAP[_mosi].gpio_peripheral->BSRR = PIN_MAP[_mosi].gpio_pin; // Data High
-    }
-    else {
-      PIN_MAP[_mosi].gpio_peripheral->BRR = PIN_MAP[_mosi].gpio_pin; // Data Low
-    }
+  pinSetLow(_cs); // Latch (_cs latchpin) Low
+  for (int8_t i = 7; i >= 0; i--)  {
+	  pinSet(_mosi, (value & (1 << i)));
     asm volatile("mov r0, r0" "\n\t" "nop" "\n\t" "nop" "\n\t" "nop" "\n\t" ::: "r0", "cc", "memory");
-    PIN_MAP[_sclk].gpio_peripheral->BSRR = PIN_MAP[_sclk].gpio_pin; // Clock High (Data Shifted In)
+		pinSetHigh(_sclk);
     asm volatile("mov r0, r0" "\n\t" "nop" "\n\t" "nop" "\n\t" "nop" "\n\t" ::: "r0", "cc", "memory");
-    PIN_MAP[_sclk].gpio_peripheral->BRR = PIN_MAP[_sclk].gpio_pin; // Clock Low
+    pinSetLow(_sclk); // Clock Low
   }
   asm volatile("mov r0, r0" "\n\t" "nop" "\n\t" "nop" "\n\t" "nop" "\n\t" ::: "r0", "cc", "memory");
-  PIN_MAP[_cs].gpio_peripheral->BSRR = PIN_MAP[_cs].gpio_pin; // Latch High (Data Latched)
+  pinSetHigh(_cs); // Latch High (Data Latched)
 }
 #endif

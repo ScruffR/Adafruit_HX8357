@@ -1,13 +1,14 @@
 Speedtest for different settings for SPI_CLOCK_SETTING and SoftSPI
 
-SPI_CLOCK_DIV16
 HX8357D Test!
 Display Power Mode: 0x9C
 MADCTL Mode: 0xC0
 Pixel Format: 0x5
 Image Format: 0x0
 Self Diagnostic: 0xC0
-Benchmark                Time (microseconds)
+
+SPI_CLOCK_DIV16
+Benchmark digitalWrite   Time (microseconds)
 Text                     3201337
 Lines                    10945964
 Rectangles (outline)     656103
@@ -16,16 +17,19 @@ Triangles (outline)      3058366
 Triangles (filled)       10776542
 Rounded rects (outline)  1291775
 Rounded rects (filled)   25523570
-Done!
+
+Benchmark pinSet         Time (microseconds)
+Text                     2105430
+Lines                    7057171
+Rectangles (outline)     643777
+Circles (outline)        4238344876
+Triangles (outline)      1971796
+Triangles (filled)       10449702
+Rounded rects (outline)  956256
+Rounded rects (filled)   25481965
 
 SPI_CLOCK_DIV8
-HX8357D Test!
-Display Power Mode: 0x9C
-MADCTL Mode: 0xC0
-Pixel Format: 0x5
-Image Format: 0x0
-Self Diagnostic: 0xC0
-Benchmark                Time (microseconds)
+Benchmark digitalWrite   Time (microseconds)
 Text                     3025821
 Lines                    10344133
 Rectangles (outline)     596228
@@ -34,16 +38,19 @@ Triangles (outline)      2890247
 Triangles (filled)       9807187
 Rounded rects (outline)  1207527
 Rounded rects (filled)   23148390
-Done!
+
+Benchmark pinSet         Time (microseconds)
+Text                     1929878
+Lines                    6455483
+Rectangles (outline)     583896
+Circles (outline)        2772035
+Triangles (outline)      1803782
+Triangles (filled)       9479970
+Rounded rects (outline)  872020
+Rounded rects (filled)   23114817
 
 SPI_CLOCK_DIV4
-HX8357D Test!
-Display Power Mode: 0xCE
-MADCTL Mode: 0xE0
-Pixel Format: 0x2
-Image Format: 0x0
-Self Diagnostic: 0xE0
-Benchmark                Time (microseconds)
+Benchmark digitalWrite   Time (microseconds)
 Text                     2937944
 Lines                    10042912
 Rectangles (outline)     566260
@@ -52,16 +59,19 @@ Triangles (outline)      2806088
 Triangles (filled)       9322061
 Rounded rects (outline)  1165347
 Rounded rects (filled)   21961206
-Done!
+
+Benchmark pinSet         Time (microseconds)
+Text                     1841996
+Lines                    6154275
+Rectangles (outline)     553909
+Circles (outline)        2642517
+Triangles (outline)      1719573
+Triangles (filled)       8994907
+Rounded rects (outline)  829833
+Rounded rects (filled)   21927592
 
 SPI_CLOCK_DIV2
-HX8357D Test!
-Display Power Mode: 0xCE
-MADCTL Mode: 0xE0
-Pixel Format: 0x2
-Image Format: 0x0
-Self Diagnostic: 0xE0
-Benchmark                Time (microseconds)
+Benchmark digitalWrite   Time (microseconds)
 Text                     2937947
 Lines                    10042941
 Rectangles (outline)     566261
@@ -70,7 +80,17 @@ Triangles (outline)      4238121034
 Triangles (filled)       9322068
 Rounded rects (outline)  1165358
 Rounded rects (filled)   21961170
-Done!
+
+Benchmark pinSet         Time (microseconds)
+Text                     1841996
+Lines                    6154275
+Rectangles (outline)     553909
+Circles (outline)        2642517
+Triangles (outline)      1719573
+Triangles (filled)       8994907
+Rounded rects (outline)  829833
+Rounded rects (filled)   21927592
+
 
 Soft SPI:
 SPI pins
@@ -79,13 +99,8 @@ MISO : D4
 MOSI : D5
 CS   : D6
 C/D  : D7
-HX8357D Test!
-Display Power Mode: 0x0
-MADCTL Mode: 0x0
-Pixel Format: 0x0
-Image Format: 0x0
-Self Diagnostic: 0x0
-Benchmark                Time (microseconds)
+
+Benchmark digitalWrite   Time (microseconds)
 Text                     3115071
 Lines                    10672193
 Rectangles (outline)     545574
@@ -94,4 +109,15 @@ Triangles (outline)      2981797
 Triangles (filled)       9008938
 Rounded rects (outline)  1206485
 Rounded rects (filled)   21092820
+
+Benchmark setPin         Time (microseconds)
+Text                     1761894
+Lines                    5880427
+Rectangles (outline)     527040
+Circles (outline)        2524787
+Triangles (outline)      1643067
+Triangles (filled)       8549283
+Rounded rects (outline)  791712
+Rounded rects (filled)   20877362
 Done!
+
