@@ -18,7 +18,7 @@
 
 #ifdef SPARK
 #include "application.h"
-#include "Adafruit_mfGFX/Adafruit_mfGFX.h"
+#include "../Adafruit_mfGFX/Adafruit_mfGFX.h"
 
 // ScruffR ToDo: Try DIV8, DIV4 and DIV2 for more speeeeeeed
 #define SPI_CLOCK_SETTING SPI_CLOCK_DIV8 // seems a good compromise for Photon too
