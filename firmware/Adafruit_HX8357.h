@@ -32,7 +32,9 @@
 #define pgm_read_word(addr) (*(const unsigned short *)(addr))
 #define RwReg uint8_t
 
-typedef unsigned char prog_uchar;
+//#ifndef prog_uchar
+//typedef unsigned char prog_uchar;
+//#endif
 #else
 #if ARDUINO >= 100
 #include "Arduino.h"
