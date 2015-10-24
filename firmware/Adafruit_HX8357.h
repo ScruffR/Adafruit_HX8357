@@ -24,9 +24,17 @@
 #define SPI_CLOCK_SETTING SPI_CLOCK_DIV8 // seems a good compromise for Photon too
 
 // direct pin manipulation macros - where speed is required
-#define pinSetHigh(pin) PIN_MAP[pin].gpio_peripheral->BSRR = PIN_MAP[pin].gpio_pin
-#define pinSetLow(pin)  PIN_MAP[pin].gpio_peripheral->BRR = PIN_MAP[pin].gpio_pin
-#define pinSet(pin, HILO) (HILO) ? pinSetHigh(pin) : pinSetLow(pin)
+#if (SYSTEM_VERSION < 0x00040400) // no fast pin functions before 0.4.4
+#if defined(STM32F2XX)  // for the Photon and friends
+#define pinResetFast(_pin)	               (PIN_MAP[_pin].gpio_peripheral->BSRRH = PIN_MAP[_pin].gpio_pin)
+#define pinSetFast(_pin)	                 (PIN_MAP[_pin].gpio_peripheral->BSRRL = PIN_MAP[_pin].gpio_pin)
+#elif defined(STM32F10X_MD)  // for the Core
+#define pinResetFast(_pin)	               (PIN_MAP[_pin].gpio_peripheral->BRR = PIN_MAP[_pin].gpio_pin)
+#define pinSetFast(_pin)	                 (PIN_MAP[_pin].gpio_peripheral->BSRR = PIN_MAP[_pin].gpio_pin)
+#endif
+#define digitalWriteFast(_pin, _hilo)      (_hilo ? pinSetFast(_pin) : pinResetFast(_pin))
+#define pinReadFast(_pin)                  (PIN_MAP[_pin].gpio_peripheral->IDR & PIN_MAP[_pin].gpio_pin ? 0xFF : LOW)
+#endif
 
 #define pgm_read_byte(addr) (*(const unsigned char *)(addr))
 #define pgm_read_word(addr) (*(const unsigned short *)(addr))
