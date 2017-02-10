@@ -21,8 +21,8 @@
 
 #pragma SPARK_NO_PREPROCESSOR
 // for Web IDE
-#include "Adafruit_HX8357/Adafruit_HX8357.h"
-#include "sd-card-library/sd-card-library.h"
+#include "Adafruit_HX8357.h"
+#include "SDFat.h"
 
 // for Spark Dev - as for Nov. 2014 - you have to put all required libs
 // directly (no sub folder) into the project folder

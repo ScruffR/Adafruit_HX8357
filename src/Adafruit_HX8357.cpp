@@ -16,8 +16,8 @@
 #include "Adafruit_HX8357.h"
 #include <limits.h>
 
-#ifdef SPARK
-#include "application.h"
+#if defined(PARTICLE)
+#include <Particle.h>
 #else
 #include <avr/pgmspace.h>
 #include "pins_arduino.h"
@@ -114,7 +114,6 @@ void Adafruit_HX8357::begin(uint8_t type) {
 
 
   if (type == HX8357B) {
-    Serial.println("linux HX8357B");
     // seqpower
     writecommand(HX8357B_SETPOWER);
     writedata(0x44);
@@ -306,13 +305,17 @@ void Adafruit_HX8357::begin(uint8_t type) {
     delay(50);
   }
   else {
+#if defined(PARTICLE) && (SYSTEM_VERSION >= 0x00060000)
+    Log.warn("unknown type");
+#else
     Serial.println("unknown type");
+#endif
   }
 }
 
 void Adafruit_HX8357::spiwrite(uint8_t c) {
 
-  //Serial.print("0x"); Serial.print(c, HEX); Serial.print(", ");
+  //Log.info("0x%02x, ", c);
 
   if (hwSPI) {
 #if defined (__AVR__)
@@ -372,7 +375,7 @@ void Adafruit_HX8357::writecommand(uint8_t c) {
   spiwrite(c);
   *csport |= cspinmask;
 #endif
-  //Serial.print("Command 0x"); Serial.println(c, HEX);
+  //Log.info("Command 0x%02x ", c);
 }
 
 
@@ -394,7 +397,7 @@ pinSetFast(_cs);
   spiwrite(c);
   *csport |= cspinmask;
 #endif
-  //Serial.print("Data 0x"); Serial.println(c, HEX);
+  //Log.info("Data 0x%02s ", c)
 }
 
 
@@ -670,7 +673,7 @@ uint8_t Adafruit_HX8357::spiread(void) {
 	      r |= 0x1;
     }
   }
-  //Serial.print("read: 0x"); Serial.print(r, HEX);
+  //Log.info("read: 0x%02x ", r);
 
   return r;
 }

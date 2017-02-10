@@ -16,9 +16,9 @@
 #ifndef _ADAFRUIT_HX8357_H
 #define _ADAFRUIT_HX8357_H
 
-#ifdef SPARK
-#include "application.h"
-#include "../Adafruit_mfGFX/Adafruit_mfGFX.h"
+#if defined(PARTICLE)
+#include <Particle.h>
+#include <Adafruit_mfGFX.h>
 
 // ScruffR ToDo: Try DIV8, DIV4 and DIV2 for more speeeeeeed
 #define SPI_CLOCK_SETTING SPI_CLOCK_DIV8 // seems a good compromise for Photon too
@@ -36,8 +36,8 @@
 #define pinReadFast(_pin)                  (PIN_MAP[_pin].gpio_peripheral->IDR & PIN_MAP[_pin].gpio_pin ? 0xFF : LOW)
 #endif
 
-#define pgm_read_byte(addr) (*(const unsigned char *)(addr))
-#define pgm_read_word(addr) (*(const unsigned short *)(addr))
+//#define pgm_read_byte(addr) (*(const unsigned char *)(addr))
+//#define pgm_read_word(addr) (*(const unsigned short *)(addr))
 #define RwReg uint8_t
 
 //#ifndef prog_uchar

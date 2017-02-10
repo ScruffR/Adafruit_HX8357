@@ -13,7 +13,7 @@
   MIT license, all text above must be included in any redistribution
  ****************************************************/
 
-#include "Adafruit_HX8357/Adafruit_HX8357.h"
+#include "Adafruit_HX8357.h"
 
 // These are 'flexible' lines that can be changed
 #define TFT_CS A6   // if several devices share SPI otherwise CS = SS

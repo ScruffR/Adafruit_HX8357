@@ -1,7 +1,0 @@
-{
-	"name": "Adafruit_HX8357",
-	"author": "ScruffR / Adafruit",
-	"version": "0.9.2",
-	"license": "Adafruit",
-	"description": "Adafruit HX8357 TFT display library for Spark (Compatible with Core 0.3.4ff and Photon/P1 0.4.3ff)"
-}
