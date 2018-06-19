@@ -22,17 +22,17 @@
 
 // Use hardware SPI (on Uno, #13, #12, #11) and the above for CS/DC
 // For Particle: SPI A3, A4, A5 (SPI1 D5, D4, D3; SPI2 C3, C2, C1)
-Adafruit_HX8357 tft = Adafruit_HX8357(SPI, TFT_CS, TFT_DC, TFT_RST);
+Adafruit_HX8357 tft(SPI, TFT_CS, TFT_DC, TFT_RST);
 
 // Use software SPI
-//Adafruit_HX8357 tft = Adafruit_HX8357(D6, D7, D5, D3, -1, D4);
+//Adafruit_HX8357 tft(D6, D7, D5, D3, -1, D4);
 
 
 void setup() {
   Serial.begin(115200);
 
   while (!Serial.available())
-    Spark.process();
+    Particle.process();
 
   Serial.println("SPI pins");
   Serial.print("SS   : "); Serial.println(SS);
@@ -62,32 +62,32 @@ void setup() {
 
   Serial.print(F("Text                     "));
   Serial.println(testText());
-  while (micros() > 0xFF000000) Spark.process(); // lacy workaround for time overrun
+  while (micros() > 0xFF000000) Particle.process(); // lacy workaround for time overrun
 
   Serial.print(F("Lines                    "));
   Serial.println(testLines(HX8357_CYAN));
-  while (micros() > 0xFF000000) Spark.process(); // lacy workaround for time overrun
+  while (micros() > 0xFF000000) Particle.process(); // lacy workaround for time overrun
 
   Serial.print(F("Rectangles (outline)     "));
   Serial.println(testRects(HX8357_GREEN));
-  while (micros() > 0xFF000000) Spark.process(); // lacy workaround for time overrun
+  while (micros() > 0xFF000000) Particle.process(); // lacy workaround for time overrun
 
   tft.fillScreen(HX8357_BLACK);
   Serial.print(F("Circles (outline)        "));
   Serial.println(testCircles(10, HX8357_RED));
-  while (micros() > 0xFF000000) Spark.process(); // lacy workaround for time overrun
+  while (micros() > 0xFF000000) Particle.process(); // lacy workaround for time overrun
 
   Serial.print(F("Triangles (outline)      "));
   Serial.println(testTriangles());
-  while (micros() > 0xFF000000) Spark.process(); // lacy workaround for time overrun
+  while (micros() > 0xFF000000) Particle.process(); // lacy workaround for time overrun
 
   Serial.print(F("Triangles (filled)       "));
   Serial.println(testFilledTriangles());
-  while (micros() > 0xFF000000) Spark.process(); // lacy workaround for time overrun
+  while (micros() > 0xFF000000) Particle.process(); // lacy workaround for time overrun
 
   Serial.print(F("Rounded rects (outline)  "));
   Serial.println(testRoundRects());
-  while (micros() > 0xFF000000) Spark.process(); // lacy workaround for time overrun
+  while (micros() > 0xFF000000) Particle.process(); // lacy workaround for time overrun
 
   Serial.print(F("Rounded rects (filled)   "));
   Serial.println(testFilledRoundRects());

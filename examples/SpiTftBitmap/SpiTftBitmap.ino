@@ -19,15 +19,10 @@
 
  ****************************************************/
 
-#pragma SPARK_NO_PREPROCESSOR
-// for Web IDE
+#pragma PARTICLE_NO_PREPROCESSOR
+
 #include "Adafruit_HX8357.h"
 #include "SdFat.h"
-
-// for Spark Dev - as for Nov. 2014 - you have to put all required libs
-// directly (no sub folder) into the project folder
-//#include "Adafruit_HX8357.h"
-//#include "sd-card-library.h"
 
 // These are 'flexible' lines that can be changed
 #define TFT_CS A6
@@ -39,7 +34,7 @@
 
 // Use hardware SPI (on Uno, #13, #12, #11) and the above for CS/DC
 // For Particle: SPI A3, A4, A5 (SPI1 D5, D4, D3; SPI2 C3, C2, C1)
-Adafruit_HX8357 tft = Adafruit_HX8357(SPI, TFT_CS, TFT_DC, TFT_RST);
+Adafruit_HX8357 tft(SPI, TFT_CS, TFT_DC, TFT_RST);
 
 // These read 16- and 32-bit types from the SD card file.
 // BMP data is stored little-endian, Arduino is little-endian too.

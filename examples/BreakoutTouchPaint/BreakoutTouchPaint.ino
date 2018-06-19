@@ -41,12 +41,12 @@
 #define TFT_CS A6
 
 // For Particle: SPI A3, A4, A5 (SPI1 D5, D4, D3; SPI2 C3, C2, C1)
-Adafruit_HX8357 tft = Adafruit_HX8357(SPI, TFT_CS, TFT_DC, TFT_RST);
+Adafruit_HX8357 tft(SPI, TFT_CS, TFT_DC, TFT_RST);
 
 // For better pressure precision, we need to know the resistance
 // between X+ and X- Use any multimeter to read it
 // For the one we're using, its 285 ohms across the X plate
-TouchScreen ts = TouchScreen(XP, YP, XM, YM, 0); // 285);
+TouchScreen ts(XP, YP, XM, YM, 0); // 285);
 
 // Size of the color selection boxes and the paintbrush size
 #define BOXSIZE 40
@@ -59,7 +59,7 @@ void setup(void) {
   Serial.println(F("Touch Paint!"));
 
   while(!Serial.available())
-    Spark.process();
+    Particle.process();
 #endif
 
   tft.begin(HX8357D);
