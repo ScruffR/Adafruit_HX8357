@@ -34,19 +34,34 @@ Adafruit_HX8357::Adafruit_HX8357(int8_t cs, int8_t dc, int8_t mosi,
   _miso = miso;
   _sclk = sclk;
   _rst  = rst;
-  hwSPI = false;
+  _spi = NULL;
 }
 
 // Constructor when using hardware SPI.  Faster, but must use SPI pins
 // specific to each board type (e.g. 11,13 for Uno, 51,52 for Mega, etc.)
-// Spark Core: SS..A2, SCK..A3, MISO..A4, MOSI..A5
+// Particle: default SPI SCK..A3, MISO..A4, MOSI..A5
 Adafruit_HX8357::Adafruit_HX8357(int8_t cs, int8_t dc, int8_t rst) : Adafruit_GFX(HX8357_TFTWIDTH, HX8357_TFTHEIGHT) {
   _cs   = cs;
   _dc   = dc;
   _rst  = rst;
-  hwSPI = true;
+  _spi = &SPI;
   _mosi  = _sclk = 0;
 }
+
+#if defined (PARTICLE)  
+// Constructor when using hardware SPI.  Faster, but must use SPI pins
+// specific to each board type (e.g. 11,13 for Uno, 51,52 for Mega, etc.)
+// Particle: SPI  SCK..A3, MISO..A4, MOSI..A5
+//           SPI1 SCK..D4, MISO..D3, MOSI..D2
+//           SPI2 SCK..C3, MISO..C2, MOSI..C1
+Adafruit_HX8357::Adafruit_HX8357(SPIClass& spi, int8_t cs, int8_t dc, int8_t rst) : Adafruit_GFX(HX8357_TFTWIDTH, HX8357_TFTHEIGHT) {
+  _cs   = cs;
+  _dc   = dc;
+  _rst  = rst;
+  _spi = &spi;
+  _mosi  = _sclk = 0;
+}
+#endif
 
 void Adafruit_HX8357::begin(uint8_t type) {
   if (_rst > 0) {
@@ -57,7 +72,7 @@ void Adafruit_HX8357::begin(uint8_t type) {
   pinMode(_dc, OUTPUT);
   pinMode(_cs, OUTPUT);
 
-#if defined(SPARK)
+#if defined(PARTICLE)
   digitalWrite(_cs, HIGH);
 #else
   csport = portOutputRegister(digitalPinToPort(_cs));
@@ -66,29 +81,29 @@ void Adafruit_HX8357::begin(uint8_t type) {
   dcpinmask = digitalPinToBitMask(_dc);
 #endif
 
-  if (hwSPI) { // Using hardware SPI
+  if (_spi) { // Using hardware SPI
 #if defined (__AVR__)
-    SPI.begin();
-    SPI.setClockDivider(SPI_CLOCK_DIV2); // 8 MHz (full! speed!)
-    SPI.setBitOrder(MSBFIRST);
-    SPI.setDataMode(SPI_MODE0);
+    _spi->begin();
+    _spi->setClockDivider(SPI_CLOCK_DIV2); // 8 MHz (full! speed!)
+    _spi->setBitOrder(MSBFIRST);
+    _spi->setDataMode(SPI_MODE0);
     mySPCR = SPCR;
 #elif defined (__arm__)
-    SPI.begin();
-#if defined (SPARK)
-    SPI.setClockDivider(SPI_CLOCK_SETTING); // a bit more than 8MHz (full speed?)
+    _spi->begin();
+#if defined (PARTICLE)
+    _spi->setClockDivider(SPI_CLOCK_SETTING); // a bit more than 8MHz (full speed?)
 #else
-    SPI.setClockDivider(11); // 8-ish MHz (full! speed!)
+    _spi->setClockDivider(11); // 8-ish MHz (full! speed!)
 #endif
-    SPI.setBitOrder(MSBFIRST);
-    SPI.setDataMode(SPI_MODE0);
+    _spi->setBitOrder(MSBFIRST);
+    _spi->setDataMode(SPI_MODE0);
 #endif
   }
   else {
     pinMode(_sclk, OUTPUT);
     pinMode(_mosi, OUTPUT);
     pinMode(_miso, INPUT);
-#if defined (SPARK)
+#if defined (PARTICLE)
     digitalWrite(_sclk, LOW);
     digitalWrite(_mosi, LOW);
     // ScruffR ToDo: Anything else???
@@ -317,7 +332,7 @@ void Adafruit_HX8357::spiwrite(uint8_t c) {
 
   //Log.info("0x%02x, ", c);
 
-  if (hwSPI) {
+  if (_spi) {
 #if defined (__AVR__)
     uint8_t backupSPCR = SPCR;
     SPCR = mySPCR;
@@ -325,17 +340,17 @@ void Adafruit_HX8357::spiwrite(uint8_t c) {
     while(!(SPSR & _BV(SPIF)));
     SPCR = backupSPCR;
 #elif defined (__arm__)
-#if defined (SPARK)
-    SPI.setClockDivider(SPI_CLOCK_SETTING); // a bit more than 8MHz (full speed?)
+#if defined (PARTICLE)
+    _spi->setClockDivider(SPI_CLOCK_SETTING); // a bit more than 8MHz (full speed?)
 #else
-    SPI.setClockDivider(11); // 8-ish MHz (full! speed!)
+    _spi->setClockDivider(11); // 8-ish MHz (full! speed!)
 #endif
-    SPI.setBitOrder(MSBFIRST);
-    SPI.setDataMode(SPI_MODE0);
-    SPI.transfer(c);
+    _spi->setBitOrder(MSBFIRST);
+    _spi->setDataMode(SPI_MODE0);
+    _spi->transfer(c);
 #endif
   } else {
-#if defined (SPARK)
+#if defined (PARTICLE)
     writeFast(c);
     // ScruffR ToDo: Anything else???
 #else
@@ -358,7 +373,7 @@ void Adafruit_HX8357::spiwrite(uint8_t c) {
 }
 
 void Adafruit_HX8357::writecommand(uint8_t c) {
-#if defined (SPARK)
+#if defined (PARTICLE)
   //digitalWrite(_dc, LOW);
 	pinResetFast(_dc);
   //digitalWrite(_sclk, LOW);
@@ -380,7 +395,7 @@ void Adafruit_HX8357::writecommand(uint8_t c) {
 
 
 void Adafruit_HX8357::writedata(uint8_t c) {
-#if defined (SPARK)
+#if defined (PARTICLE)
 //digitalWrite(_dc, HIGH);
 pinSetFast(_dc);
 //digitalWrite(_sclk, LOW);
@@ -418,7 +433,7 @@ void Adafruit_HX8357::setAddrWindow(uint16_t x0, uint16_t y0, uint16_t x1, uint1
 }
 
 void Adafruit_HX8357::pushColor(uint16_t color) {
-#if defined (SPARK)
+#if defined (PARTICLE)
   //digitalWrite(_dc, HIGH);
 	pinSetFast(_dc);
   //digitalWrite(_cs, LOW);
@@ -442,7 +457,7 @@ void Adafruit_HX8357::drawPixel(int16_t x, int16_t y, uint16_t color) {
 
   setAddrWindow(x,y,x+1,y+1);
 
-#if defined (SPARK)
+#if defined (PARTICLE)
   //digitalWrite(_dc, HIGH);
   pinSetFast(_dc);
   //digitalWrite(_cs, LOW);
@@ -467,7 +482,7 @@ void Adafruit_HX8357::drawPixel(int16_t x, int16_t y, uint16_t color) {
   spiwrite(color >> 8);
   spiwrite(color);
 
-#if defined (SPARK)
+#if defined (PARTICLE)
   //digitalWrite(_cs, HIGH);
   pinSetFast(_cs);
 #else
@@ -488,7 +503,7 @@ void Adafruit_HX8357::drawFastVLine(int16_t x, int16_t y, int16_t h,
 
   uint8_t hi = color >> 8, lo = color;
 
-#if defined (SPARK)
+#if defined (PARTICLE)
   //digitalWrite(_dc, HIGH);
   pinSetFast(_dc);
   //digitalWrite(_cs, LOW);
@@ -503,7 +518,7 @@ void Adafruit_HX8357::drawFastVLine(int16_t x, int16_t y, int16_t h,
     spiwrite(lo);
   }
 
-#if defined (SPARK)
+#if defined (PARTICLE)
   //digitalWrite(_cs, HIGH);
   pinSetFast(_cs);
 #else
@@ -521,7 +536,7 @@ void Adafruit_HX8357::drawFastHLine(int16_t x, int16_t y, int16_t w,
 
   uint8_t hi = color >> 8, lo = color;
 
-#if defined (SPARK)
+#if defined (PARTICLE)
   //digitalWrite(_dc, HIGH);
   pinSetFast(_dc);
   //digitalWrite(_cs, LOW);
@@ -536,7 +551,7 @@ void Adafruit_HX8357::drawFastHLine(int16_t x, int16_t y, int16_t w,
     spiwrite(lo);
   }
 
-#if defined (SPARK)
+#if defined (PARTICLE)
   //digitalWrite(_cs, HIGH);
   pinSetFast(_cs);
 #else
@@ -569,7 +584,7 @@ void Adafruit_HX8357::fillRect(int16_t x, int16_t y, int16_t w, int16_t h,
   b <<= 3;
   */
 
-#if defined (SPARK)
+#if defined (PARTICLE)
   //digitalWrite(_dc, HIGH);
   pinSetFast(_dc);
   //digitalWrite(_cs, LOW);
@@ -586,7 +601,7 @@ void Adafruit_HX8357::fillRect(int16_t x, int16_t y, int16_t w, int16_t h,
     }
   }
 
-#if defined (SPARK)
+#if defined (PARTICLE)
   //digitalWrite(_cs, HIGH);
   pinSetFast(_cs);
 #else
@@ -645,7 +660,7 @@ void Adafruit_HX8357::invertDisplay(boolean i) {
 uint8_t Adafruit_HX8357::spiread(void) {
   uint8_t r = 0;
 
-  if (hwSPI) {
+  if (_spi) {
 #if defined (__AVR__)
     uint8_t backupSPCR = SPCR;
     SPCR = mySPCR;
@@ -654,14 +669,14 @@ uint8_t Adafruit_HX8357::spiread(void) {
     r = SPDR;
     SPCR = backupSPCR;
 #elif defined (__arm__)
-#if defined (SPARK)
-    SPI.setClockDivider(SPI_CLOCK_SETTING); // a bit more than 8MHz (full speed?)
+#if defined (PARTICLE)
+    _spi->setClockDivider(SPI_CLOCK_SETTING); // a bit more than 8MHz (full speed?)
 #else
-    SPI.setClockDivider(11); // 8-ish MHz (full! speed!)
+    _spi->setClockDivider(11); // 8-ish MHz (full! speed!)
 #endif
-    SPI.setBitOrder(MSBFIRST);
-    SPI.setDataMode(SPI_MODE0);
-    r = SPI.transfer(0x00);
+    _spi->setBitOrder(MSBFIRST);
+    _spi->setDataMode(SPI_MODE0);
+    r = _spi->transfer(0x00);
 #endif
   } else {
 
@@ -744,7 +759,7 @@ uint8_t Adafruit_HX8357::readcommand8(uint8_t c, uint8_t index) {
 
  */
 
-#if defined(SPARK)
+#if defined(PARTICLE)
 // based on
 /*
 * HARDWARE AND SOFTWARE LIQUIDCRYSTAL SPI

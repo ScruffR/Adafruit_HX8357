@@ -144,6 +144,9 @@ class Adafruit_HX8357 : public Adafruit_GFX {
 public:
   Adafruit_HX8357(int8_t _CS, int8_t _DC, int8_t _MOSI, int8_t _SCLK, int8_t _RST, int8_t _MISO);
   Adafruit_HX8357(int8_t _CS, int8_t _DC, int8_t _RST = -1);
+#if defined (PARTICLE)  
+  Adafruit_HX8357(SPIClass& _SPI, int8_t _CS, int8_t _DC, int8_t _RST);
+#endif
 
   void begin(uint8_t);
   void setAddrWindow(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1);
@@ -175,7 +178,7 @@ public:
 private:
   uint8_t tabcolor;
 
-  boolean hwSPI;
+  SPIClass *_spi;
 #if defined (__AVR__)
   uint8_t mySPCR;
   volatile uint8_t *mosiport, *clkport, *dcport, *rsport, *csport;
@@ -187,7 +190,7 @@ private:
   uint32_t mosipinmask, clkpinmask, cspinmask, dcpinmask;
 #endif
 
-#if defined(SPARK)
+#if defined(PARTICLE)
   inline void writeFast(uint8_t value);
 #endif
 };

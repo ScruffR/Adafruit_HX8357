@@ -21,8 +21,8 @@
 #define TFT_RST -1  // RST can be set to -1 if you tie it to Arduino's reset
 
 // Use hardware SPI (on Uno, #13, #12, #11) and the above for CS/DC
-// For Spark Core: A3, A4, A5
-Adafruit_HX8357 tft = Adafruit_HX8357(TFT_CS, TFT_DC, TFT_RST);
+// For Particle: SPI A3, A4, A5 (SPI1 D5, D4, D3; SPI2 C3, C2, C1)
+Adafruit_HX8357 tft = Adafruit_HX8357(SPI, TFT_CS, TFT_DC, TFT_RST);
 
 // Use software SPI
 //Adafruit_HX8357 tft = Adafruit_HX8357(D6, D7, D5, D3, -1, D4);

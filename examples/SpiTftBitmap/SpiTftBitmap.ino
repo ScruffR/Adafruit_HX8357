@@ -22,7 +22,7 @@
 #pragma SPARK_NO_PREPROCESSOR
 // for Web IDE
 #include "Adafruit_HX8357.h"
-#include "SDFat.h"
+#include "SdFat.h"
 
 // for Spark Dev - as for Nov. 2014 - you have to put all required libs
 // directly (no sub folder) into the project folder
@@ -38,7 +38,9 @@
 #define BUFFPIXEL 20
 
 // Use hardware SPI (on Uno, #13, #12, #11) and the above for CS/DC
-Adafruit_HX8357 tft = Adafruit_HX8357(TFT_CS, TFT_DC, TFT_RST);
+// For Particle: SPI A3, A4, A5 (SPI1 D5, D4, D3; SPI2 C3, C2, C1)
+Adafruit_HX8357 tft = Adafruit_HX8357(SPI, TFT_CS, TFT_DC, TFT_RST);
+
 // These read 16- and 32-bit types from the SD card file.
 // BMP data is stored little-endian, Arduino is little-endian too.
 // May need to reverse subscript order if porting elsewhere.
@@ -58,6 +60,8 @@ uint32_t read32(File &f) {
   ((uint8_t *)&result)[3] = f.read(); // MSB
   return result;
 }
+
+SdFat SD;
 
 void bmpDraw(char *filename, uint8_t x, uint16_t y) {
 

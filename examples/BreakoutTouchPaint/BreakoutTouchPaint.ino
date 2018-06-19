@@ -16,7 +16,7 @@
 /** NOT FOR USE WITH THE TOUCH SHIELD, ONLY FOR THE 3.5" BREAKOUT! **/
 
 #include "Adafruit_HX8357.h"
-#include "Touch_4Wire/Touch_4Wire.h"
+#include "Touch_4Wire.h"
 
 #undef DEBUG
 
@@ -40,7 +40,8 @@
 #define TFT_DC A7
 #define TFT_CS A6
 
-Adafruit_HX8357 tft = Adafruit_HX8357(TFT_CS, TFT_DC, TFT_RST);
+// For Particle: SPI A3, A4, A5 (SPI1 D5, D4, D3; SPI2 C3, C2, C1)
+Adafruit_HX8357 tft = Adafruit_HX8357(SPI, TFT_CS, TFT_DC, TFT_RST);
 
 // For better pressure precision, we need to know the resistance
 // between X+ and X- Use any multimeter to read it
